@@ -1,9 +1,6 @@
 <section class="counter-container">
   <div class="counter-value"><strong>{{ counter$ | async }}</strong></div>
   <div class="counter-actions">
-    <button class="button-counter" (click)="increment()">Incrementar</button>
-    <button class="button-counter" (click)="decrement()">Decremento</button>
-    <button class="button-counter" (click)="random()">Random</button>
-    <button class="button-counter" (click)="saltar(88)">Saltar</button>
+    <button class="button-counter" *ngFor="let action of actionsList" [ngClass]="{'button-counter-hover': action.applyButtonHover}" (mouseenter)="action.applyButtonHover = true" (mouseleave)="action.applyButtonHover = false" (click)="action.buttonAction()">{{action.buttonText}}</button>
   </div>
 </section>
