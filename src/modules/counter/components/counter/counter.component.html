@@ -1,5 +1,9 @@
-<div>Counter: {{ counter$ | async }}</div>
-<button (click)="increment()">Incrementar</button>
-<button (click)="decrement()">Decremento</button>
-<button (click)="random()">Random</button>
-<button (click)="saltar(88)">Saltar</button>
+<section class="counter-container">
+  <div class="counter-value"><strong>{{ counter$ | async }}</strong></div>
+  <div class="counter-actions">
+    <button class="button-counter" (click)="increment()">Incrementar</button>
+    <button class="button-counter" (click)="decrement()">Decremento</button>
+    <button class="button-counter" (click)="random()">Random</button>
+    <button class="button-counter" (click)="saltar(88)">Saltar</button>
+  </div>
+</section>

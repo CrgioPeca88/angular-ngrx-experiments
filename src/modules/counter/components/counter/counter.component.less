@@ -1,0 +1,40 @@
+.counter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 15px;
+  background-image: linear-gradient(to top, black 0%, black 70%, whitesmoke 100%);
+  height: 40vh;
+  .counter-value {
+    font-size: 60px;
+    color: red;
+  }
+  .counter-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    .button-counter {
+      width: 10%;
+      height: 13vh;
+      font-family: 'sans-serif';
+      padding: 10px;
+      background-color: transparent;
+      border: 1px solid whitesmoke;
+      border-radius: 8px;
+      color: whitesmoke;
+    }
+    .button-counter:hover {
+      font-weight: bold;
+      width: 11%;
+      height: 16vh;
+      cursor: pointer;
+      border: 1px solid greenyellow;
+      color: greenyellow;
+      box-shadow: 0px 0px 30px greenyellow;
+    }
+  }
+}
