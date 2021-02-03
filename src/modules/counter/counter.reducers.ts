@@ -1,5 +1,8 @@
+// Dependencies
 import { createReducer, on } from '@ngrx/store';
-import * as states from './contador.actions';
+
+// Assets
+import * as states from './counter.actions';
 
 export const counter = 0;
 

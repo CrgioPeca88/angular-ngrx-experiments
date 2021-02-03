@@ -1,12 +1,14 @@
+// Dependencies
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CounterComponent } from './components/counter/counter.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-import { counterReducer } from './contador.reducers';
+
+// Assets
+import { AppRoutingModule } from '@app/app-routing.module';
+import { AppComponent } from '@app/components/app/app.component';
+import { CounterComponent } from '@counter/components/counter/counter.component';
+import { reducers, metaReducers } from '@core/reducers.config';
+import { counterReducer } from '@counter/counter.reducers';
 
 @NgModule({
   declarations: [
