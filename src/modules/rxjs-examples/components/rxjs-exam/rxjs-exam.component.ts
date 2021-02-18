@@ -1,16 +1,17 @@
 // Dependencies
-import { Component, ElementRef, Renderer2, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-rxjs-exam',
   templateUrl: './rxjs-exam.component.html',
   styleUrls: ['./rxjs-exam.component.less']
 })
-export class RxjsExComponent implements OnInit {
+export class RxjsExComponent implements AfterViewInit {
 
   @ViewChild('oc') oc: ElementRef;
   private observable$: Observable<string>;
+  private textObserver: Subscription;
 
   constructor(
     private renderer2: Renderer2
@@ -28,10 +29,18 @@ export class RxjsExComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.observable$.subscribe((data: string) => {
-      console.log(data);
+  ngAfterViewInit(): void {
+    this.textObserver = this.observable$.subscribe((data: string) => {
+      const textContainer = this.renderer2.createElement('div');
+      this.renderer2.setProperty(textContainer, 'id', 'text-container');
+      const text = this.renderer2.createText(data);
+      this.renderer2.appendChild(textContainer, text);
+      this.renderer2.appendChild(this.oc.nativeElement, textContainer);
     });
+
+    setTimeout(() => {
+      this.textObserver.unsubscribe();
+    }, 6001);
   }
 
 }
