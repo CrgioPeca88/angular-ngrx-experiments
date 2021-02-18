@@ -22,7 +22,8 @@
       "@environments/*": ["environments/*"],
       "@app/*": ["modules/app/*"],
       "@core/*": ["modules/core/*"],
-      "@counter/*": ["modules/counter/*"]
+      "@counter/*": ["modules/counter/*"],
+      "@rxjs-exam/*": ["modules/rxjs-examples/*"]
     }
   },
   "angularCompilerOptions": {
