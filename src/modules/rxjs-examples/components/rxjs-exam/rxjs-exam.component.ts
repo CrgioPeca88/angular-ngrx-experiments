@@ -1,7 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { Observable, Subscription, of, merge, pipe, OperatorFunction } from 'rxjs';
-import { mergeAll, map, mapTo } from 'rxjs/operators';
+import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction } from 'rxjs';
+import { mergeAll, map, mapTo, audit, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -45,11 +45,12 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.startOperatorMergeEx();
-    this.startOperatorMapEx();
+    this.initOperatorMergeEx();
+    this.initOperatorMapEx();
+    this.initOperatorAuditEx();
   }
 
-  private startOperatorMergeEx(): void {
+  private initOperatorMergeEx(): void {
     // merge example
     const obs1: Observable<string> = of('Texto1');
     const obs2: Observable<number> = Observable.create(o => o.next(88));
@@ -75,7 +76,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     );
   }
 
-  private startOperatorMapEx(): void {
+  private initOperatorMapEx(): void {
     // map example
     const obs1: Observable<string> = Observable .create( o => {
       o.next('Soy');
@@ -104,6 +105,24 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     );
     obsMapTo.subscribe((objMapTo: Object) => {
       console.log(`%c MAPTO operator: result ==>`, `color: yellow; background-color: green`, objMapTo);
+    });
+  }
+
+  private initOperatorAuditEx(): void {
+    // audit example
+    const obs1: Observable<string> = interval(500).pipe(
+      map((n: number) => {
+        return (`Data test observable`);
+      }),
+      take(14)
+    );
+    const resultAudit: Observable<string> = obs1.pipe(
+      audit((text: string) => {
+        return interval(5000);
+      })
+    );
+    resultAudit.subscribe((data: string) => {
+      console.log(`%c AUDIT operator: result ==>`, `color: white; background-color: red`, data);
     });
   }
 
