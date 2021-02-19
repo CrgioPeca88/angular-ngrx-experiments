@@ -1,13 +1,13 @@
 // Dependencies
-import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
+import { Observable, Subscription, of, merge, OperatorFunction } from 'rxjs';
 
 @Component({
   selector: 'app-rxjs-exam',
   templateUrl: './rxjs-exam.component.html',
   styleUrls: ['./rxjs-exam.component.less']
 })
-export class RxjsExComponent implements AfterViewInit {
+export class RxjsExComponent implements OnInit, AfterViewInit {
 
   @ViewChild('oc') oc: ElementRef;
   private observable$: Observable<string>;
@@ -41,6 +41,19 @@ export class RxjsExComponent implements AfterViewInit {
     setTimeout(() => {
       this.textObserver.unsubscribe();
     }, 6001);
+  }
+
+  ngOnInit(): void {
+    this.startOperatorMergeEx();
+  }
+
+  private startOperatorMergeEx(): void {
+    const obs1: Observable<string> = of('Texto1');
+    const obs2: Observable<number> = Observable.create(o => o.next(88));
+    const resObs: Observable<string | number> = merge(obs1, obs2);
+    resObs.subscribe((data: string | number) => {
+      console.log(`%c MERGE operator: result ==>`, `color: greenyellow; background-color: black`, data);
+    })
   }
 
 }
