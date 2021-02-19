@@ -1,6 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { Observable, Subscription, of, merge, OperatorFunction } from 'rxjs';
+import { Observable, Subscription, of, merge, pipe, OperatorFunction } from 'rxjs';
+import { mergeAll, map, mapTo } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -45,15 +46,65 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.startOperatorMergeEx();
+    this.startOperatorMapEx();
   }
 
   private startOperatorMergeEx(): void {
+    // merge example
     const obs1: Observable<string> = of('Texto1');
     const obs2: Observable<number> = Observable.create(o => o.next(88));
     const resObs: Observable<string | number> = merge(obs1, obs2);
     resObs.subscribe((data: string | number) => {
       console.log(`%c MERGE operator: result ==>`, `color: greenyellow; background-color: black`, data);
-    })
+    });
+    // mergeAll example
+    const obsA: Observable<Observable<Object>> = Observable.create(o => {
+      o.next(of({
+        value: 88
+      }));
+      o.next(of({
+        value: 99
+      }));
+    });
+    const obsB: Observable<Observable<boolean>> = Observable.create(o => o.next(of(true)));
+    const resultMergeAll = merge(obsA, obsB).pipe(mergeAll());
+    resultMergeAll.subscribe(
+      (result: any) => {
+        console.log(`%c MERGEALL operator: result ==>`, `color: greenyellow; background-color: black`, result);
+      }
+    );
+  }
+
+  private startOperatorMapEx(): void {
+    // map example
+    const obs1: Observable<string> = Observable .create( o => {
+      o.next('Soy');
+      o.next('Crgio');
+      o.next('Peca');
+      o.next('88');
+      o.complete();
+    });
+    const obsMap: Observable<Object> = obs1.pipe(
+      map((text: string) => {
+        return ({
+          value: text.toUpperCase()
+        });
+      })
+    );
+    obsMap.subscribe((obj: Object) => {
+      console.log(`%c MAP operator: result ==>`, `color: yellow; background-color: green`, obj);
+    });
+
+    // mapTo example
+    const obsMapTo: Observable<Object> = obsMap.pipe(
+      mapTo({
+        username: 'crgio mapTo',
+        password: 'crgio password'
+      })
+    );
+    obsMapTo.subscribe((objMapTo: Object) => {
+      console.log(`%c MAPTO operator: result ==>`, `color: yellow; background-color: green`, objMapTo);
+    });
   }
 
 }
