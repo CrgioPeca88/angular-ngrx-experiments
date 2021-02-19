@@ -1,7 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction } from 'rxjs';
-import { mergeAll, map, mapTo, audit, take } from 'rxjs/operators';
+import { mergeAll, map, mapTo, flatMap, audit, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -48,6 +48,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initOperatorMergeEx();
     this.initOperatorMapEx();
     this.initOperatorAuditEx();
+    this.initOperatorflatMapEx();
   }
 
   private initOperatorMergeEx(): void {
@@ -68,7 +69,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       }));
     });
     const obsB: Observable<Observable<boolean>> = Observable.create(o => o.next(of(true)));
-    const resultMergeAll = merge(obsA, obsB).pipe(mergeAll());
+    const resultMergeAll: Observable<any> = merge(obsA, obsB).pipe(mergeAll());
     resultMergeAll.subscribe(
       (result: any) => {
         console.log(`%c MERGEALL operator: result ==>`, `color: greenyellow; background-color: black`, result);
@@ -123,6 +124,33 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     );
     resultAudit.subscribe((data: string) => {
       console.log(`%c AUDIT operator: result ==>`, `color: white; background-color: red`, data);
+    });
+  }
+
+  private initOperatorflatMapEx(): void {
+    function getNewObservable(text: string): Observable<number> {
+      if(text === '88') {
+        return of(88);
+      } else {
+        return of(null);
+      }
+    }
+    const obs1: Observable<string> = Observable.create(o => {
+      o.next('Soy');
+      o.next('Crgio');
+      o.next('Peca');
+      o.next('88');
+      o.complete();
+    });
+    const result: Observable<number> = obs1.pipe(
+      flatMap((text: string) => {
+        return getNewObservable(text);
+      })
+    );
+    result.subscribe((n: number) => {
+      if(typeof n === 'number') {
+        console.log(`%c FLATMAP operator: result ==>`, `color: green; background-color: orange`, n);
+      }
     });
   }
 
