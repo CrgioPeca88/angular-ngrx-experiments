@@ -1,7 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction } from 'rxjs';
-import { mergeAll, map, mapTo, flatMap, audit, take } from 'rxjs/operators';
+import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent } from 'rxjs';
+import { mergeAll, map, mapTo, flatMap, audit, take, buffer } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -11,6 +11,7 @@ import { mergeAll, map, mapTo, flatMap, audit, take } from 'rxjs/operators';
 export class RxjsExComponent implements OnInit, AfterViewInit {
 
   @ViewChild('oc') oc: ElementRef;
+  @ViewChild('bufferButton') bufferButton: ElementRef;
   private observable$: Observable<string>;
   private textObserver: Subscription;
 
@@ -42,6 +43,8 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.textObserver.unsubscribe();
     }, 6001);
+
+    this.initOperatorBufferEx();
   }
 
   ngOnInit(): void {
@@ -128,6 +131,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
   }
 
   private initOperatorflatMapEx(): void {
+    // flatMap example
     function getNewObservable(text: string): Observable<number> {
       if(text === '88') {
         return of(88);
@@ -151,6 +155,21 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       if(typeof n === 'number') {
         console.log(`%c FLATMAP operator: result ==>`, `color: green; background-color: orange`, n);
       }
+    });
+  }
+
+  private initOperatorBufferEx(): void {
+    // audit example
+    const obs1: Observable<number> = interval(2000).pipe(take(5));
+    const clicksButton = fromEvent(this.bufferButton.nativeElement, 'click');
+    const buffered = clicksButton.pipe(
+      map((e) => {
+        return ({event: 'click', testBuffer: true});
+      }),
+      buffer(obs1)
+    );
+    buffered.subscribe((buffData) => {
+      console.log(`%c BUFFER operator: result ==>`, `color: yellow; background-color: purple`, buffData);
     });
   }
 
