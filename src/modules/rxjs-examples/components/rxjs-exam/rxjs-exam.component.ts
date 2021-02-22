@@ -1,7 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent } from 'rxjs';
-import { mergeAll, map, mapTo, flatMap, audit, take, buffer } from 'rxjs/operators';
+import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent, EMPTY } from 'rxjs';
+import { mergeAll, map, mapTo, flatMap, audit, take, buffer, isEmpty, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -52,6 +52,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initOperatorMapEx();
     this.initOperatorAuditEx();
     this.initOperatorflatMapEx();
+    this.initIsEmptyAndTapOperator();
   }
 
   private initOperatorMergeEx(): void {
@@ -170,6 +171,24 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     );
     buffered.subscribe((buffData) => {
       console.log(`%c BUFFER operator: result ==>`, `color: yellow; background-color: purple`, buffData);
+    });
+  }
+
+  private initIsEmptyAndTapOperator(): void {
+    // isEmpty and Tap example
+    const obs1: Observable<string> = Observable.create((o) => {
+      o.complete();
+    });
+    const evalObs1: Observable<boolean> = obs1.pipe(isEmpty());
+    const evalEmpty: Observable<boolean> = EMPTY.pipe(isEmpty());
+    const result: Observable<boolean> = merge(evalObs1, evalEmpty).pipe(
+      tap((r: boolean) => {
+        const rmsg: string = (r === true) ? 'verdadero' : 'falso';
+        console.log(`%c TAP operator: el resultado de la validaciòn es: `, `color: red; background-color: greenyellow`, rmsg);
+      })
+    );
+    result.subscribe((result: boolean) => {
+      console.log(`%c ISEMPTY operator: result ==>`, `color: red; background-color: greenyellow`, result);
     });
   }
 
