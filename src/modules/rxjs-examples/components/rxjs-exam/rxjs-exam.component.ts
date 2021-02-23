@@ -1,7 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent, EMPTY } from 'rxjs';
-import { mergeAll, map, mapTo, flatMap, audit, take, buffer, isEmpty, tap } from 'rxjs/operators';
+import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -52,6 +52,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initOperatorMapEx();
     this.initOperatorAuditEx();
     this.initOperatorflatMapEx();
+    this.initOperatorswitchMapEx();
     this.initIsEmptyAndTapOperator();
   }
 
@@ -154,8 +155,49 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     );
     result.subscribe((n: number) => {
       if(typeof n === 'number') {
-        console.log(`%c FLATMAP operator: result ==>`, `color: green; background-color: orange`, n);
+        console.log(`%c FLATMAP operator: result exam1 ==>`, `color: green; background-color: orange`, n);
       }
+    });
+
+    function getNewObservable2(t: string): Observable<string> {
+      return interval(500).pipe(
+        map((n)=>`interno ${n} ${t}`),
+        take(2)
+      );
+    }
+    const obs3: Observable<string> = interval(1000).pipe(
+      map((n)=>`externo ${n}`),
+      take(8)
+    );
+    const result2: Observable<string> = obs3.pipe(
+      flatMap((t: string) => {
+        return getNewObservable2(t);
+      })
+    );
+    result2.subscribe((text: string) => {
+      console.log(`%c FLATMAP operator: result exam2 ==>`, `color: green; background-color: orange`, text);
+    });
+  }
+
+  private initOperatorswitchMapEx(): void {
+    // switchMap example
+    function getNewObservable(t: string): Observable<string> {
+      return interval(500).pipe(
+        map((n)=>`interno ${n} ${t}`),
+        take(2)
+      );
+    }
+    const obs1: Observable<string> = interval(1000).pipe(
+      map((n)=>`externo ${n}`),
+      take(8)
+    );
+    const result: Observable<string> = obs1.pipe(
+      switchMap((t: string) => {
+        return getNewObservable(t);
+      })
+    );
+    result.subscribe((text: string) => {
+      console.log(`%c SWITCHMAP operator: result ==>`, `color: yellow; background-color: blue`, text);
     });
   }
 
