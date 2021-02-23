@@ -1,7 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent, EMPTY } from 'rxjs';
-import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty, tap } from 'rxjs/operators';
+import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty, tap, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -54,6 +54,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initOperatorflatMapEx();
     this.initOperatorswitchMapEx();
     this.initIsEmptyAndTapOperator();
+    this.initDebounceTimeOperator();
   }
 
   private initOperatorMergeEx(): void {
@@ -232,6 +233,15 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     result.subscribe((result: boolean) => {
       console.log(`%c ISEMPTY operator: result ==>`, `color: red; background-color: greenyellow`, result);
     });
+  }
+
+  private initDebounceTimeOperator(): void {
+    // debounceTime example
+    const obs1: Observable<number> = interval(500).pipe(take(20));
+    const result: Observable<number> = obs1.pipe(
+      debounceTime(1000)
+    );
+    result.subscribe(r => console.log(`%c DEBOUNCETIME operator: result ==>`, `color: black; background-color: yellow`, r));
   }
 
 }
