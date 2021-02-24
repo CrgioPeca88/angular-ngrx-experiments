@@ -8,7 +8,10 @@ import { HomeComponent } from './components/home/home.component';
 const routes: Routes = [{
   path: 'home',
   component: HomeComponent
-},{
+}, {
+  path: 'ngrx-chat',
+  loadChildren: () => import('@chat/chat.module').then(modules => modules.ChatModule)
+}, {
   path: 'ngrx-counter',
   loadChildren: () => import('@counter/counter.module').then(modules => modules.CounterModule)
 }, {
