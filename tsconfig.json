@@ -22,6 +22,7 @@
       "@environments/*": ["environments/*"],
       "@app/*": ["modules/app/*"],
       "@core/*": ["modules/core/*"],
+      "@chat/*": ["modules/chat/*"],
       "@counter/*": ["modules/counter/*"],
       "@rxjs-exam/*": ["modules/rxjs-examples/*"]
     }

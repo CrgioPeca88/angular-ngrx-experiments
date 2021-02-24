@@ -3,12 +3,13 @@ import { NgModule } from '@angular/core';
 
 // Assets
 import { RxjsExComponent } from './components/rxjs-exam/rxjs-exam.component';
+import { RxjsExamplesRoutingModule } from './rxjs-examples-routing.module';
 
 @NgModule({
-  declarations:[
-    RxjsExComponent
+  imports: [
+    RxjsExamplesRoutingModule
   ],
-  exports:[
+  declarations: [
     RxjsExComponent
   ]
 })
