@@ -7,9 +7,14 @@ import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [{
   path: '',
+  component: ChatComponent,
   children: [{
+    path: 'login',
+    loadChildren: () => import('@chat/modules/auth/auth.module').then(modules => modules.AuthModule)
+  }, {
     path: '',
-    component: ChatComponent
+    redirectTo: 'login',
+    pathMatch: 'prefix'
   }]
 }];
 
