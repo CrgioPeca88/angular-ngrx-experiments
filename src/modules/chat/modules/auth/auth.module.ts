@@ -1,5 +1,6 @@
 // Dependencies
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 // Assets
 import { LoginComponent } from './components/login/login.component';
@@ -8,7 +9,8 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
   imports: [
-    AuthRoutingModule
+    AuthRoutingModule,
+    FormsModule
   ],
   declarations: [
     AuthComponent,

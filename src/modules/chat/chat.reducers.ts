@@ -12,7 +12,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 //Assets
 import { RouterStateUrl } from '@core/utils';
-import * fromAuth from '@chat/components/auth/reducers/auth.reducer'
+import * as fromAuth from '@chat/components/auth/reducers/auth.reducer'
 
 export interface State {
   auth: fromAuth.state,

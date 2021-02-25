@@ -14,7 +14,7 @@ export class LoginComponent {
 
   public user: IUser;
 
-  constructor(private authService: AuthService) {  }
+  constructor(private authService: AuthService) { }
 
   public login(): void {
     this.authService.login(this.user).subscribe((res: any) => {
