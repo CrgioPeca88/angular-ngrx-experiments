@@ -1,5 +1,5 @@
 // Dependencies
-import { Action } from '@ngrx-store';
+import { Action } from '@ngrx/store';
 
 export enum AuthActionTypes {
   LoggedUser = `[Auth] LOGGED_USER`,

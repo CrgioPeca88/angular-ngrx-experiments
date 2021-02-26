@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 
 // Assets
-import { IUser } from '@core/interfaces/IUser.model';
+import { IUser, iUserDefaultInstance } from '@core/interfaces/IUser.model';
 import { AuthService } from '@chat/modules/auth/services/auth.service';
 
 @Component({
@@ -14,7 +14,11 @@ export class LoginComponent {
 
   public user: IUser;
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService
+  ) {
+    this.user = iUserDefaultInstance();
+  }
 
   public login(): void {
     this.authService.login(this.user).subscribe((res: any) => {

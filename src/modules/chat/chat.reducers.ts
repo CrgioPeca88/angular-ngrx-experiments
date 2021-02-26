@@ -15,7 +15,7 @@ import { RouterStateUrl } from '@core/utils';
 import * as fromAuth from '@chat/modules/auth/reducers/auth.reducer'
 
 export interface State {
-  auth: fromAuth.state,
+  auth: fromAuth.State,
   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 

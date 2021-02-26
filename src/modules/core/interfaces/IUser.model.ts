@@ -3,3 +3,11 @@ export interface IUser {
   password: string;
   username: string;
 }
+
+export const iUserDefaultInstance: () => IUser = () => {
+  return {
+    email: "",
+    password: "",
+    username: ""
+  };
+};
