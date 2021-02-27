@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, tap, catchError } from 'rxjs/operators';
+import { map, exhaustMap, tap, catchError } from 'rxjs/operators';
 
 // Assets
 import {
@@ -22,12 +22,14 @@ export class AuthEffects {
     private httpClient: HttpClient,
     private actions$: Actions,
     private authService: AuthService
-  ) { }
+  ) {
+    console.log("====>>>>>>>>>>>>>>>>>>>>>>");
+  }
 
   @Effect()
   LoginUserError$: Observable<Action> = this.actions$.pipe(
     ofType<LoginUserError>(AuthActionTypes.LoginUserError),
-    tap(lue => console.log("LoginAPI error effect", lue.paylod)),
+    tap(lue => console.log("LoginAPI error effect", lue.payload)),
     map(data => {
       return { type: 'LOGIN_API_ERROR', payload: 'Email or password incorrect' };
     })
@@ -36,23 +38,22 @@ export class AuthEffects {
   @Effect()
   LoginUser$: Observable<Action> = this.actions$.pipe(
     ofType<LoginUser>(AuthActionTypes.LoginUser),
-    tap(lue => console.log("LoginUser effect", lue.paylod)),
-    mergeMap(action =>
-      this.authService.login({
-        email: action.payload.email,
-        username: '',
-        password: action.payload.pass
-      })
-    )
+    tap(lue => console.log("LoginUser effect ====>", lue.payload)),
+    map(lue => lue.payload),
+    exhaustMap(payload => {
+      return this.authService.login(payload.user).pipe(
+        map(response => new LoggedUser(response)),
+        catchError(error => of(new LoginUserError(error)))
+      )
+    })
   );
 
   @Effect()
   LoggedUser$: Observable<Action> = this.actions$.pipe(
     ofType<LoggedUser>(AuthActionTypes.LoggedUser),
-    tap(lu => console.log("LoggedUser effect", lu.paylod)),
-    map(data => {
-      console.log(data);
-      return { type: '', payload: data };
+    tap(lu => console.log("LoggedUser effect", lu.payload)),
+    map(lu => {
+      return { type: '', payload: lu };
     })
   );
 

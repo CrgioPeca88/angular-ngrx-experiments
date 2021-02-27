@@ -1,6 +1,9 @@
 // Dependencies
 import { Action } from '@ngrx/store';
 
+// Assets
+import { IUser } from '@core/interfaces/IUser.model';
+
 export enum AuthActionTypes {
   LoggedUser = `[Auth] LOGGED_USER`,
   LoginUser = `[Auth] LOGIN_USER`,
@@ -11,12 +14,12 @@ export enum AuthActionTypes {
 
 export class LoggedIn implements Action {
   readonly type = AuthActionTypes.LoggedIn;
-  constructor(public payload: { isLoggin: boolean }) {}
+  constructor(public payload: { isLogin: boolean }) {}
 }
 
 export class Logout implements Action {
   readonly type = AuthActionTypes.Logout;
-  constructor(public payload: { isLoggin: boolean }) {}
+  constructor(public payload: { isLogin: boolean }) {}
 }
 
 export class LoggedUser implements Action {
@@ -26,7 +29,7 @@ export class LoggedUser implements Action {
 
 export class LoginUser implements Action {
   readonly type = AuthActionTypes.LoginUser;
-  constructor(public payload: { user: string, pass: string }) {}
+  constructor(public payload: { user: IUser }) {}
 }
 
 export class LoginUserError implements Action {

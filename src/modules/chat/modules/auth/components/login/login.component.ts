@@ -1,9 +1,10 @@
 // Dependencies
 import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import * as Auth from '@chat/modules/auth/actions/auth.actions';
 
 // Assets
 import { IUser, iUserDefaultInstance } from '@core/interfaces/IUser.model';
-import { AuthService } from '@chat/modules/auth/services/auth.service';
 
 @Component({
   selector: 'chat-auth-login',
@@ -13,17 +14,17 @@ import { AuthService } from '@chat/modules/auth/services/auth.service';
 export class LoginComponent {
 
   public user: IUser;
+  public error$: any;
+  public isLoading$: any;
 
-  constructor(
-    private authService: AuthService
-  ) {
+  constructor(private store: Store<any>) {
     this.user = iUserDefaultInstance();
+    this.error$ = this.store.select(state => state.auth.error);
+    this.isLoading$ = this.store.select(state => state.auth.isLoading);
   }
 
   public login(): void {
-    this.authService.login(this.user).subscribe((res: any) => {
-      console.log("--->", res);
-    });
+    this.store.dispatch(new Auth.LoginUser({user: this.user}))
   }
 
 }
