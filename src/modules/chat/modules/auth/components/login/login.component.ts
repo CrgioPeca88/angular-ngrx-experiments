@@ -24,7 +24,8 @@ export class LoginComponent {
   }
 
   public login(): void {
-    this.store.dispatch(new Auth.LoginUser({user: this.user}))
+    const clone = { user: Object.assign({}, this.user ) };
+    this.store.dispatch(new Auth.LoginUser(clone));
   }
 
 }

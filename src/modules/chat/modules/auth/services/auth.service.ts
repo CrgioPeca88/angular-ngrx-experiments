@@ -1,7 +1,7 @@
 // Dependencies
 import { Injectable } from '@angular/core';
-import { from, Observable, of, pipe } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { from, Observable, of, pipe, throwError, interval } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
 
 // Assets
 import { IUser } from '@core/interfaces/IUser.model';
@@ -33,8 +33,10 @@ export class AuthService {
         error: false,
         user: user
       };
+      return of(res).pipe(delay(5000));
+    } else {
+      return interval(4000).pipe(switchMap(n => throwError(res)));
     }
-    return of(res).pipe(delay(5000)); 
   }
 
 }

@@ -22,9 +22,7 @@ export class AuthEffects {
     private httpClient: HttpClient,
     private actions$: Actions,
     private authService: AuthService
-  ) {
-    console.log("====>>>>>>>>>>>>>>>>>>>>>>");
-  }
+  ) {}
 
   @Effect()
   LoginUserError$: Observable<Action> = this.actions$.pipe(

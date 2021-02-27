@@ -29,6 +29,7 @@ export function AuthReducer(state = [], action: AuthActions.actions) {
         token: action.payload
       };
     default:
+    console.log("stateeeeeeeeeeeeeeeeeeee", state);
       return state;
   }
 }

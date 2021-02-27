@@ -4,7 +4,7 @@ export interface IUser {
   username: string;
 }
 
-export const iUserDefaultInstance: () => IUser = () => {
+export let iUserDefaultInstance: () => IUser = () => {
   return {
     email: "",
     password: "",
