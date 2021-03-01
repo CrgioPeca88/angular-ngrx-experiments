@@ -7,10 +7,8 @@ import { Observable, of } from 'rxjs';
 import { map, exhaustMap, tap, catchError } from 'rxjs/operators';
 
 // Assets
-import {
-  AuthActionTypes, LoggedIn,
-  LoggedUser, Logout,
-  LoginUser, LoginUserError } from '@chat/modules/auth/actions/auth.actions';
+import { AuthActionTypes, LoggedUser, Logout, LoginUser,
+  LoginUserError } from '@chat/modules/auth/actions/auth.actions';
 import { AuthService } from '@chat/modules/auth/services/auth.service';
 
 @Injectable({
@@ -36,7 +34,6 @@ export class AuthEffects {
   @Effect()
   LoginUser$: Observable<Action> = this.actions$.pipe(
     ofType<LoginUser>(AuthActionTypes.LoginUser),
-    tap(lue => console.log("LoginUser effect ====>", lue.payload)),
     map(lue => lue.payload),
     exhaustMap(payload => {
       return this.authService.login(payload.user).pipe(

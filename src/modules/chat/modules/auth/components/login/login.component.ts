@@ -28,4 +28,8 @@ export class LoginComponent {
     this.store.dispatch(new Auth.LoginUser(clone));
   }
 
+  public getCurrentState(): void {
+    this.store.select(state => state.auth).subscribe(res => console.log("res state =>>>>>> ", res));
+  }
+
 }

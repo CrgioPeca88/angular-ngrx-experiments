@@ -1,15 +1,18 @@
 <h1>Login!!!</h1>
 <div>
-  <!--div *ngIf="error$ | async">
+  <div *ngIf="error$ | async">
     <h1>Error al autenticarse</h1>
-  </div-->
-  <!--div [hidden]="!(isLoading$ | async)">
+  </div>
+  <div *ngIf="isLoading$ | async">
     <h3>Cargando ... </h3>
-  </div-->
+  </div>
   <section>
     Email:<input type="email" name="email" [(ngModel)]="user.email"/>
     Password:<input type="password" name="password" [(ngModel)]="user.password"/>
     Username:<input type="text" name="username" [(ngModel)]="user.username"/>
     <button type="button" name="login" (click)="login()">Login</button>
   </section>
+  <div class="">
+    <button type="button" name="state" (click)="getCurrentState()">CURRENT_STATE</button>
+  </div>
 </div>
