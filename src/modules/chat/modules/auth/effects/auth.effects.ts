@@ -23,15 +23,6 @@ export class AuthEffects {
   ) {}
 
   @Effect()
-  LoginUserError$: Observable<Action> = this.actions$.pipe(
-    ofType<LoginUserError>(AuthActionTypes.LoginUserError),
-    tap(lue => console.log("LoginAPI error effect", lue.payload)),
-    map(data => {
-      return { type: 'LOGIN_API_ERROR', payload: 'Email or password incorrect' };
-    })
-  );
-
-  @Effect()
   LoginUser$: Observable<Action> = this.actions$.pipe(
     ofType<LoginUser>(AuthActionTypes.LoginUser),
     map(lue => lue.payload),

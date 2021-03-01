@@ -1,7 +1,7 @@
 <h1>Login!!!</h1>
 <div>
   <div *ngIf="error$ | async">
-    <h1>Error al autenticarse</h1>
+    <h1>{{error$ | async}}</h1>
   </div>
   <div *ngIf="isLoading$ | async">
     <h3>Cargando ... </h3>

@@ -24,13 +24,13 @@ export class AuthService {
   public login(user: IUser): Observable<any> {
     let res = {
       isLoading: false,
-      error: true,
+      error: 'Error al iniciar sesión, revise credenciales y vuelva a intentar',
       user: user
     };
     if(JSON.stringify(user) === JSON.stringify(this.userFake)) {
       res = {
         isLoading: false,
-        error: false,
+        error: '',
         user: user
       };
       return of(res).pipe(delay(5000));
