@@ -1,13 +1,8 @@
 export interface IUser {
-  email: string;
-  password: string;
   username: string;
+  password: string;
 }
 
 export let iUserDefaultInstance: () => IUser = () => {
-  return {
-    email: "",
-    password: "",
-    username: ""
-  };
+  return { username: "", password: "" };
 };

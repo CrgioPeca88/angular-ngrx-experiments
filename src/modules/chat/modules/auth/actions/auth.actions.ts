@@ -18,7 +18,7 @@ export class LoginUser implements Action {
 
 export class LoggedUser implements Action {
   readonly type = AuthActionTypes.LoggedUser;
-  constructor(public payload: any) {}
+  constructor(public payload: { user: IUser, token: string }) {}
 }
 
 export class LoginUserError implements Action {

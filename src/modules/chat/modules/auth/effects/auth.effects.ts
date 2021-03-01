@@ -28,18 +28,9 @@ export class AuthEffects {
     map(lue => lue.payload),
     exhaustMap(payload => {
       return this.authService.login(payload.user).pipe(
-        map(response => new LoggedUser(response)),
+        map(response => new LoggedUser({user: response.user, token: response.token})),
         catchError(error => of(new LoginUserError(error)))
       )
-    })
-  );
-
-  @Effect()
-  LoggedUser$: Observable<Action> = this.actions$.pipe(
-    ofType<LoggedUser>(AuthActionTypes.LoggedUser),
-    tap(lu => console.log("LoggedUser effect", lu.payload)),
-    map(lu => {
-      return { type: '', payload: lu };
     })
   );
 

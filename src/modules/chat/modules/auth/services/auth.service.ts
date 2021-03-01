@@ -15,26 +15,17 @@ export class AuthService {
 
   constructor() {
     this.userFake = {
-      email: "ngrx@gmail.com",
-      password: "ngrxpassword",
-      username: "ngrx"
+      username: "ngrx",
+      password: "ngrxpassword"
     }
   }
 
   public login(user: IUser): Observable<any> {
-    let res = {
-      isLoading: false,
-      error: 'Error al iniciar sesión, revise credenciales y vuelva a intentar',
-      user: user
-    };
     if(JSON.stringify(user) === JSON.stringify(this.userFake)) {
-      res = {
-        isLoading: false,
-        error: '',
-        user: user
-      };
+      let res = { token: 'jdsjkfdsjfdjdsfjkfds.fufuidfsfddfdsfds.jfddfsdfdfsfdsfdsfdsfds' };
       return of(res).pipe(delay(5000));
     } else {
+      let res = { error: 'Error al iniciar sesión, revise credenciales y vuelva a intentar' };
       return interval(4000).pipe(switchMap(n => throwError(res)));
     }
   }

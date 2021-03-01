@@ -5,15 +5,13 @@ import { IUser, iUserDefaultInstance } from '@core/interfaces/IUser.model';
 
 export interface State {
   user: IUser;
-  tokens?: Array<any>;
+  token?: string;
   error?: string;
   isLoading: boolean;
 }
 
 const initialState: State = {
   user: iUserDefaultInstance(),
-  tokens: [],
-  error: '',
   isLoading: false
 }
 
@@ -34,7 +32,9 @@ export function AuthReducer(state: State = initialState, action: AuthActions.act
     case AuthActionTypes.LoggedUser:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        error: null,
+        token: action.payload.token
       };
     default:
       return state;
