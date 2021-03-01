@@ -12,6 +12,9 @@ const routes: Routes = [{
     path: 'login',
     loadChildren: () => import('@chat/modules/auth/auth.module').then(modules => modules.AuthModule)
   }, {
+    path: 'home',
+    loadChildren: () => import('@chat/modules/home/home.module').then(modules => modules.HomeModule)
+  }, {
     path: '',
     redirectTo: 'login',
     pathMatch: 'prefix'
