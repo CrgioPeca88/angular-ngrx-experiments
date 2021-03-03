@@ -12,9 +12,9 @@
       </div>
     </div>
     <section class="loading-form">
-      Username:<input type="text" name="username" [(ngModel)]="user.username"/>
-      Password:<input type="password" name="password" [(ngModel)]="user.password"/>
-      <button type="button" name="login" (click)="login()">Login</button>
+      <input class="loading-inputs-form" type="text" name="username" placeholder="Usuario" [(ngModel)]="user.username"/>
+      <input class="loading-inputs-form" type="password" name="password" placeholder="Contraseña" [(ngModel)]="user.password"/>
+      <button class="action-buttons" type="button" name="login" (click)="login()">Ingresar</button>
     </section>
   </section>
 </main>
