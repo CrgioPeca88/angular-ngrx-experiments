@@ -1,14 +1,20 @@
-<h1>Login!!!</h1>
-<div>
-  <div *ngIf="(error$ | async) && !(isLoading$ | async)">
-    <h3 class="error">{{error$ | async}}</h3>
-  </div>
-  <div *ngIf="isLoading$ | async">
-    <h3>Cargando ... </h3>
-  </div>
-  <section>
-    Username:<input type="text" name="username" [(ngModel)]="user.username"/>
-    Password:<input type="password" name="password" [(ngModel)]="user.password"/>
-    <button type="button" name="login" (click)="login()">Login</button>
+<main class="login-container">
+  <section class="login-data-container">
+    <figure class="login-data-img">
+      <img class="figure-img" src="../../../../../../assets/ngrx-img.png" alt="ngrx login img">
+    </figure>
+    <div class="messages-container">
+      <div class="error-message" *ngIf="(error$ | async) && !(isLoading$ | async)">
+        <span>{{error$ | async}}</span>
+      </div>
+      <div class="loading-message" *ngIf="isLoading$ | async">
+        <span>Cargando ... </span>
+      </div>
+    </div>
+    <section class="loading-form">
+      Username:<input type="text" name="username" [(ngModel)]="user.username"/>
+      Password:<input type="password" name="password" [(ngModel)]="user.password"/>
+      <button type="button" name="login" (click)="login()">Login</button>
+    </section>
   </section>
-</div>
+</main>

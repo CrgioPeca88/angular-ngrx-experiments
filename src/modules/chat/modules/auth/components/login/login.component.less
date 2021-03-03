@@ -1,6 +1,42 @@
-h1 {
-  color: purple;
-}
-.error {
-  color: red;
+.login-container {
+  width: 100vw;
+  .login-data-container {
+    width: 30vw;
+    margin: 20vh auto;
+    padding: 10px;
+    border: 1px solid #a829c3;
+    border-radius: 3px;
+    overflow: hidden;
+    .login-data-img {
+      display: flex;
+      justify-content: center;
+      .figure-img {
+        width: 50%;
+      }
+    }
+  }
+  .messages-container {
+    width: 90%;
+    margin: 0 auto;
+    .error-message {
+      background-color: #ff9f9f;
+      color: #3e3e3e;
+      text-align: center;
+      border-radius: 3px;
+      font-size: 0.93em;
+      padding: 2px;
+    }
+    .loading-message {
+      background-color: #4b314f;
+      color: #be64d3;
+      text-align: center;
+      border-radius: 3px;
+      font-size: 0.93em;
+      padding: 2px;
+    }
+  }
+  .loading-form {
+    display: flex;
+    flex-direction: column;
+  }
 }
