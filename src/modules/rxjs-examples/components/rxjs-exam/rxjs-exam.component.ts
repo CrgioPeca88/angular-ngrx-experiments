@@ -1,7 +1,13 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent, EMPTY } from 'rxjs';
-import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty, tap, debounceTime } from 'rxjs/operators';
+import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty,
+  tap, debounceTime, filter } from 'rxjs/operators';
+
+interface User {
+  username: string;
+  age: number;
+}
 
 @Component({
   selector: 'app-rxjs-exam',
@@ -55,6 +61,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initOperatorswitchMapEx();
     this.initIsEmptyAndTapOperator();
     this.initDebounceTimeOperator();
+    this.initFilterOperator();
   }
 
   private initOperatorMergeEx(): void {
@@ -242,6 +249,24 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       debounceTime(1000)
     );
     result.subscribe(r => console.log(`%c DEBOUNCETIME operator: result ==>`, `color: black; background-color: yellow`, r));
+  }
+
+  private initFilterOperator(): void {
+    // filter example
+    const obs1: Observable<User> = Observable.create( (s) => {
+      s.next({ username: 'Sergio', age: 29 });
+      s.next({ username: 'Peña', age: 16 });
+      s.next({ username: 'Cardozo', age: 15 });
+      s.next({ username: 'Angie', age: 28 });
+      s.next({ username: 'Viviana', age: 10 });
+      s.next({ username: 'Garcia', age: 11 });
+    });
+    const result: Observable<User> =  obs1.pipe(
+      filter((user: User) => user.age > 18)
+    );
+    result.subscribe((user: User) => {
+      console.log(`%c FILTER operator: result ==>`, `color: black; background-color: pink`, user);
+    });
   }
 
 }
