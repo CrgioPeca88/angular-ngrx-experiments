@@ -2,11 +2,15 @@
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent, EMPTY } from 'rxjs';
 import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty,
-  tap, debounceTime, filter } from 'rxjs/operators';
+  tap, debounceTime, filter, delay } from 'rxjs/operators';
 
-interface User {
-  username: string;
+interface Person {
   age: number;
+  idType?: string;
+}
+
+class User implements Person {
+  constructor(public username: string, public age: number, public idType?: string) {}
 }
 
 @Component({
@@ -50,18 +54,19 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       this.textObserver.unsubscribe();
     }, 6001);
 
-    this.initOperatorBufferEx();
+    //this.initOperatorBufferEx();
   }
 
   ngOnInit(): void {
-    this.initOperatorMergeEx();
-    this.initOperatorMapEx();
-    this.initOperatorAuditEx();
-    this.initOperatorflatMapEx();
-    this.initOperatorswitchMapEx();
-    this.initIsEmptyAndTapOperator();
-    this.initDebounceTimeOperator();
-    this.initFilterOperator();
+    //this.initOperatorMergeEx();
+    //this.initOperatorMapEx();
+    //this.initOperatorAuditEx();
+    //this.initOperatorflatMapEx();
+    //this.initOperatorswitchMapEx();
+    //this.initIsEmptyAndTapOperator();
+    //this.initDebounceTimeOperator();
+    //this.initFilterOperator();
+    this.initCustomOperators();
   }
 
   private initOperatorMergeEx(): void {
@@ -268,5 +273,37 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       console.log(`%c FILTER operator: result ==>`, `color: black; background-color: pink`, user);
     });
   }
+
+  private initCustomOperators(): void {
+    // Custom Operator
+    const customOpIdType = () => pipe(
+      delay(2000),
+      map((p: Person) => {
+        if (p.age > 18) {
+          return {...p, idType: 'CC'};
+        } else {
+          return {...p, idType: 'TI'};
+        }
+      })
+    );
+
+    const mockData: User[] = [
+      { username: 'Sergio', age: 29 },
+      { username: 'Peña', age: 15 },
+      { username: 'Angie', age: 28 },
+      { username: 'Viviana', age: 17 },
+      { username: 'Garcia', age: 18 },
+    ];
+
+    const result: Observable<User> = of(...mockData).pipe(
+      map((user: User) => {
+        return {...user, username: `${user.username}__`};
+      }),
+      customOpIdType(),
+      map((p: Person) => p as User)
+    )
+    result.subscribe((user: User) => console.log(`%c CUSTOM operator: result ==>`, `color: greenyellow; background-color: blue`, user));
+  }
+
 
 }
