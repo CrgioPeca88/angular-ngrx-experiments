@@ -1,6 +1,7 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent, EMPTY } from 'rxjs';
+import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent,
+  EMPTY, concat } from 'rxjs';
 import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty,
   tap, debounceTime, filter, delay } from 'rxjs/operators';
 
@@ -11,6 +12,10 @@ interface Person {
 
 class User implements Person {
   constructor(public username: string, public age: number, public idType?: string) {}
+}
+
+class Admin implements Person {
+  constructor(public id: string, public age: number, public idType?: string) {}
 }
 
 @Component({
@@ -276,10 +281,10 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
 
   private initCustomOperators(): void {
     // Custom Operator
-    const customOpIdType = () => pipe(
+    const customOpIdType: () => OperatorFunction<Person, Person> = () => pipe(
       delay(2000),
       map((p: Person) => {
-        if (p.age > 18) {
+        if (p.age >= 18) {
           return {...p, idType: 'CC'};
         } else {
           return {...p, idType: 'TI'};
@@ -295,14 +300,28 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       { username: 'Garcia', age: 18 },
     ];
 
+    const mockData2: Admin[] = [
+      { id: 'Admin-001', age: 29 },
+      { id: 'Admin-002', age: 15 },
+      { id: 'Admin-003', age: 28 },
+      { id: 'Admin-004', age: 17 },
+      { id: 'Admin-005', age: 18 },
+    ];
+
     const result: Observable<User> = of(...mockData).pipe(
       map((user: User) => {
         return {...user, username: `${user.username}__`};
       }),
       customOpIdType(),
       map((p: Person) => p as User)
-    )
-    result.subscribe((user: User) => console.log(`%c CUSTOM operator: result ==>`, `color: greenyellow; background-color: blue`, user));
+    );
+
+    const result2: Observable<Admin> = of(...mockData2).pipe(
+      customOpIdType(),
+      map((p: Person) => p as Admin)
+    );
+
+    concat(result, result2).subscribe((p: Person) => console.log(`%c CUSTOM operator: result ==>`, `color: greenyellow; background-color: blue`, p));
   }
 
 
