@@ -59,18 +59,18 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       this.textObserver.unsubscribe();
     }, 6001);
 
-    //this.initOperatorBufferEx();
+    this.initOperatorBufferEx();
   }
 
   ngOnInit(): void {
-    //this.initOperatorMergeEx();
-    //this.initOperatorMapEx();
-    //this.initOperatorAuditEx();
-    //this.initOperatorflatMapEx();
-    //this.initOperatorswitchMapEx();
-    //this.initIsEmptyAndTapOperator();
-    //this.initDebounceTimeOperator();
-    //this.initFilterOperator();
+    this.initOperatorMergeEx();
+    this.initOperatorMapEx();
+    this.initOperatorAuditEx();
+    this.initOperatorflatMapEx();
+    this.initOperatorswitchMapEx();
+    this.initIsEmptyAndTapOperator();
+    this.initDebounceTimeOperator();
+    this.initFilterOperator();
     this.initCustomOperators();
   }
 
