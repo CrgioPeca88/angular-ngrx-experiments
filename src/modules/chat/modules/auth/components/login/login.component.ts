@@ -19,7 +19,7 @@ export class LoginComponent {
   public error$: any;
   public isLoading$: any;
 
-  constructor(private store: Store<AuthReducer.ReducerAuth>) {
+  constructor(private store: Store<AuthReducer.State>) {
     this.user = iUserDefaultInstance();
     this.error$ = this.store.select(AuthSelectors.getAuthError);
     this.isLoading$ = this.store.select(AuthSelectors.getAuthIsLoading);
