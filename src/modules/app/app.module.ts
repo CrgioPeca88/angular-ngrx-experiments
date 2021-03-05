@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // Assets
@@ -13,13 +12,12 @@ import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/components/app/app.component';
 import { HomeComponent } from './components/home/home.component';
 import { counterReducer } from '@counter/counter.reducers';
-import { reducers, metaReducers, State } from '@chat/chat.reducers';
+import { authReducers, ReducerAuth } from '@chat/modules/auth/state/auth.reducer';
 
 const counterR = { counter: counterReducer };
-const resultReducers: ActionReducerMap<State|any> = { ...counterR, ...reducers };
+const resultReducers: ActionReducerMap<ReducerAuth|any> = { ...counterR, ...authReducers };
 const NGRX_IMPORTS = [
-  StoreModule.forRoot(resultReducers, { metaReducers }),
-  StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+  StoreModule.forRoot(resultReducers),
   EffectsModule.forRoot([]),
   StoreDevtoolsModule.instrument({
     name: 'AngularChatNgRx',

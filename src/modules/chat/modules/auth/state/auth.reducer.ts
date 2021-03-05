@@ -1,6 +1,8 @@
+// Dependencies
+import { ActionReducerMap } from '@ngrx/store';
+
 // Assets
-import * as AuthActions from '@chat/modules/auth/actions/auth.actions';
-import { AuthActionTypes } from '@chat/modules/auth/actions/auth.actions';
+import * as AuthActions from '@chat/modules/auth/state/auth.actions';
 import { IUser, iUserDefaultInstance } from '@core/interfaces/IUser.model';
 
 export interface State {
@@ -17,19 +19,19 @@ const initialState: State = {
 
 export function AuthReducer(state: State = initialState, action: AuthActions.actions): State {
   switch (action.type) {
-    case AuthActionTypes.LoginUser:
+    case AuthActions.AuthActionTypes.LoginUser:
       return {
         ...state,
         user: action.payload.user,
         isLoading: true
       };
-      case AuthActionTypes.LoginUserError:
+      case AuthActions.AuthActionTypes.LoginUserError:
         return {
           ...state,
           isLoading: false,
           error: action.payload.error
         };
-    case AuthActionTypes.LoggedUser:
+    case AuthActions.AuthActionTypes.LoggedUser:
       return {
         ...state,
         isLoading: false,
@@ -44,3 +46,12 @@ export function AuthReducer(state: State = initialState, action: AuthActions.act
 export const getAuthState: (s: State) => State = (state: State) => state;
 export const getAuthError: (s: State) => string = (state: State) => state.error;
 export const getAuthIsLoading: (s: State) => boolean = (state: State) => state.isLoading;
+
+
+export interface ReducerAuth {
+  auth: State
+}
+
+export const authReducers: ActionReducerMap<ReducerAuth> = {
+  auth: AuthReducer
+}

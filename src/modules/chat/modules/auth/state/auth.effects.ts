@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { map, exhaustMap, tap, catchError } from 'rxjs/operators';
 
 // Assets
-import { AuthActionTypes, LoggedUser, LoginUser, LoginUserError } from '@chat/modules/auth/actions/auth.actions';
+import { AuthActionTypes, LoggedUser, LoginUser, LoginUserError } from '@chat/modules/auth/state/auth.actions';
 import { AuthService } from '@chat/modules/auth/services/auth.service';
 
 @Injectable({

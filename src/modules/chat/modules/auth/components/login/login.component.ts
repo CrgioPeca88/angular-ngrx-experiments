@@ -1,8 +1,9 @@
 // Dependencies
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import * as Auth from '@chat/modules/auth/actions/auth.actions';
-import * as chatReducers from '@chat/chat.reducers';
+import * as AuthActions from '@chat/modules/auth/state/auth.actions';
+import * as AuthSelectors from '@chat/modules/auth/state/auth.selectors';
+import * as AuthReducer from '@chat/modules/auth/state/auth.reducer';
 
 // Assets
 import { IUser, iUserDefaultInstance } from '@core/interfaces/IUser.model';
@@ -18,15 +19,15 @@ export class LoginComponent {
   public error$: any;
   public isLoading$: any;
 
-  constructor(private store: Store<chatReducers.State>) {
+  constructor(private store: Store<AuthReducer.ReducerAuth>) {
     this.user = iUserDefaultInstance();
-    this.error$ = this.store.select(chatReducers.getAuthError);
-    this.isLoading$ = this.store.select(chatReducers.getAuthIsLoading);
+    this.error$ = this.store.select(AuthSelectors.getAuthError);
+    this.isLoading$ = this.store.select(AuthSelectors.getAuthIsLoading);
   }
 
   public login(): void {
     const clone = { user: Object.assign({}, this.user ) };
-    this.store.dispatch(new Auth.LoginUser(clone));
+    this.store.dispatch(new AuthActions.LoginUser(clone));
   }
 
 }

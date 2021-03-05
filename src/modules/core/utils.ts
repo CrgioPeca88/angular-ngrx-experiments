@@ -1,5 +1,5 @@
 // Dependencies
-import { RouterStateSerializer } from '@ngrx/router-store';
+/*import { RouterStateSerializer } from '@ngrx/router-store';
 import { RouterStateSnapshot, Params } from '@angular/router';
 
 export interface RouterStateUrl {
@@ -21,4 +21,4 @@ export class CustomRouterStateSerializer implements RouterStateSerializer<Router
     return { url, params, queryParams };
   }
 
-}
+}*/
