@@ -1,6 +1,6 @@
 // Dependencies
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { Observable, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent,
+import { Observable, BehaviorSubject, ReplaySubject, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent,
   EMPTY, concat } from 'rxjs';
 import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty,
   tap, debounceTime, filter, delay } from 'rxjs/operators';
@@ -30,7 +30,11 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
   private observable$: Observable<string>;
   private textObserver: Subscription;
 
-  constructor(
+  private bs: BehaviorSubject<number>;
+  private rs: ReplaySubject<number>;
+  private obs: Observable<number>;
+
+  constructor (
     private renderer2: Renderer2
   ) {
     this.observable$ = Observable.create((o: any) => {
@@ -44,6 +48,10 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
         o.error(error);
       }
     });
+
+    this.bs = new BehaviorSubject(0);
+    this.rs = new ReplaySubject();
+    this.obs = of(0);
   }
 
   ngAfterViewInit(): void {
@@ -59,6 +67,21 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       this.textObserver.unsubscribe();
     }, 6001);
 
+    interval(1000).pipe(
+      tap((o)=>{
+        this.bs.next(o + 10);
+        this.bs.next(o + 20);
+        this.bs.next(o + 30);
+        this.rs.next(o * 1);
+        this.rs.next(o * 2);
+        this.rs.next(o * 3);
+      }),
+      take(8)
+    ).subscribe();
+
+    this.obs = interval(1000).pipe(
+      take(8)
+    );
     this.initOperatorBufferEx();
   }
 
@@ -72,6 +95,22 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initDebounceTimeOperator();
     this.initFilterOperator();
     this.initCustomOperators();
+  }
+
+  public runBehaviorSubject(): void {
+    console.log(`%c BEHAVIOR SUBJECT test: result ==>`, `color: black; background-color: cyan`, this.bs.getValue());
+  }
+
+  public runReplaySubject(): void {
+    this.rs.subscribe((value: number) => {
+      console.log(`%c REPLAY SUBJECT test: result ==>`, `color: black; background-color: cyan`, value);
+    });
+  }
+
+  public runObservable(): void {
+    this.obs.subscribe((value: number) => {
+      console.log(`%c OBSERVABLE test: result ==>`, `color: black; background-color: cyan`, value);
+    });
   }
 
   private initOperatorMergeEx(): void {
