@@ -25,7 +25,6 @@ export const NGRX_CONFIG = [
   EffectsModule.forRoot([]),
   StoreDevtoolsModule.instrument({
     name: 'AngularChatNgRx',
-    logOnly: environment.production,
     maxAge: 25
   })
 ];
