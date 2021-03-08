@@ -38,6 +38,24 @@ export const authReducer: ActionReducer<State> = (state: State = initialState, a
         error: null,
         token: action.payload.token
       };
+    case AuthActions.AuthActionTypes.Logout:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case AuthActions.AuthActionTypes.UserLogoutError:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error
+      };
+    case AuthActions.AuthActionTypes.UserLogout:
+      return {
+        user: null,
+        token: null,
+        error: null,
+        isLoading: false
+      };
     default:
       return state;
   }
@@ -46,3 +64,4 @@ export const authReducer: ActionReducer<State> = (state: State = initialState, a
 export const getAuthState: (s: State) => State = (state: State) => state;
 export const getAuthError: (s: State) => string = (state: State) => state.error;
 export const getAuthIsLoading: (s: State) => boolean = (state: State) => state.isLoading;
+export const getAuthToken: (s: State) => string = (state: State) => state.token;

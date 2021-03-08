@@ -1,4 +1,15 @@
-<h1>Home CHAT!!!</h1>
-<div>
-  <button type="button" name="state" (click)="getCurrentState()">CURRENT_STATE</button>
-</div>
+<section class="home-chat-container">
+  <h1>Home CHAT!!!</h1>
+  <div class="messages-container">
+    <div class="error-message" *ngIf="(error$ | async) && !(isLoading$ | async)">
+      <span>{{error$ | async}}</span>
+    </div>
+    <div class="loading-message" *ngIf="isLoading$ | async">
+      <span>Cargando ... </span>
+    </div>
+  </div>
+  <div>
+    <button type="button" name="state" (click)="getCurrentState()">CURRENT_STATE</button>
+    <button type="button" name="logout" class="logout" (click)="logout()">Cerrar sesión</button>
+  </div>
+</section>

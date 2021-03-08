@@ -5,10 +5,12 @@ import { Action } from '@ngrx/store';
 import { IUser } from '@core/interfaces/IUser.model';
 
 export enum AuthActionTypes {
-  LoginUser = `[Auth] LOGIN_USER`,
-  LoggedUser = `[Auth] LOGGED_USER`,
-  LoginUserError = `[Auth] LOGIN_USER_ERROR`,
-  Logout = `[Auth] LOGOUT_USER`
+  LoginUser =       `[Auth] LOGIN_USER`,
+  LoggedUser =      `[Auth] LOGGED_USER`,
+  LoginUserError =  `[Auth] LOGIN_USER_ERROR`,
+  Logout =          `[Auth] LOGOUT`,
+  UserLogoutError = `[Auth] USER_LOGOUT_ERROR`,
+  UserLogout =      `[Auth] USER_LOGOUT`
 }
 
 export class LoginUser implements Action {
@@ -28,8 +30,17 @@ export class LoginUserError implements Action {
 
 export class Logout implements Action {
   readonly type = AuthActionTypes.Logout;
-  constructor(public payload: { isLogin: boolean }) {}
+  constructor() {}
 }
 
+export class UserLogoutError implements Action {
+  readonly type = AuthActionTypes.UserLogoutError;
+  constructor(public payload: { error: string }) {}
+}
 
-export type actions =  Logout | LoggedUser | LoginUser | LoginUserError;
+export class UserLogout implements Action {
+  readonly type = AuthActionTypes.UserLogout;
+  constructor() {}
+}
+
+export type actions = LoggedUser | LoginUser | LoginUserError | Logout | UserLogoutError | UserLogout;

@@ -8,3 +8,4 @@ export const authStateReference = createFeatureSelector<authReducer.State>('auth
 export const getAuthState = createSelector(authStateReference, authReducer.getAuthState);
 export const getAuthError = createSelector(authStateReference, authReducer.getAuthError);
 export const getAuthIsLoading = createSelector(authStateReference, authReducer.getAuthIsLoading);
+export const getAuthToken = createSelector(authStateReference, authReducer.getAuthToken);
