@@ -1,10 +1,40 @@
 .home-chat-container{
-  h1 {
-  color: purple;
+  height: 88vh;
+  padding: 10px;
+  position: relative;
+  .home-chat-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h1 {
+      background-color: #4b314f;
+      color: #be64d3;
+    }
+    .logout {
+      background-color: #ad5cc4;
+      color: #ffffff;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+  .state {
+    margin-top: 10px;
+    background-color: #c43730;
+    color: #ffffff;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
   }
   .messages-container {
     width: 90%;
     margin: 0 auto;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 240px;
     .error-message {
       background-color: #ff9f9f;
       color: #3e3e3e;

@@ -1,5 +1,9 @@
 <section class="home-chat-container">
-  <h1>Home CHAT!!!</h1>
+  <div class="home-chat-header-container">
+    <h1>Home CHAT!!!</h1>
+    <button name="logout" class="logout" (click)="logout()">Cerrar sesión</button>
+  </div>
+  <button name="state" class="state" (click)="getCurrentState()">CURRENT_STATE</button>
   <div class="messages-container">
     <div class="error-message" *ngIf="(error$ | async) && !(isLoading$ | async)">
       <span>{{error$ | async}}</span>
@@ -7,9 +11,5 @@
     <div class="loading-message" *ngIf="isLoading$ | async">
       <span>Cargando ... </span>
     </div>
-  </div>
-  <div>
-    <button name="state" (click)="getCurrentState()">CURRENT_STATE</button>
-    <button name="logout" class="logout" (click)="logout()">Cerrar sesión</button>
   </div>
 </section>

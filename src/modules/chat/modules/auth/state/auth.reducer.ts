@@ -62,6 +62,10 @@ export const authReducer: ActionReducer<State> = (state: State = initialState, a
 }
 
 export const getAuthState: (s: State) => State = (state: State) => state;
-export const getAuthError: (s: State) => string = (state: State) => state.error;
-export const getAuthIsLoading: (s: State) => boolean = (state: State) => state.isLoading;
+export const getAuthError: (s: State) => string = (state: State) => {
+  return (state) ? state.error : null;
+};
+export const getAuthIsLoading: (s: State) => boolean = (state: State) => {
+  return (state) ? state.isLoading : null;
+};
 export const getAuthToken: (s: State) => string = (state: State) => state.token;
