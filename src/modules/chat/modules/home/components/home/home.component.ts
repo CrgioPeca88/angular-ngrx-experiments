@@ -1,7 +1,8 @@
 // Dependencies
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 // Assets
 import * as AuthSelectors from '@chat/modules/auth/state/auth.selectors';
@@ -24,7 +25,7 @@ export class HomeComponent {
   }
 
   public getCurrentState(): void {
-    this.store.select(AuthSelectors.getAuthState).subscribe(res => console.log(`%c AUTH STATE ==>`, `color: white; background-color: #a829c3; border-radius: 4px`, res));
+    this.store.select(AuthSelectors.getAuthState).pipe(take(1)).subscribe(res => console.log(`%c AUTH STATE ==>`, `color: white; background-color: #a829c3; border-radius: 4px`, res));
   }
 
   public logout(): void {

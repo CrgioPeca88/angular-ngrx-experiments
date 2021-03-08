@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, flatMap, exhaustMap, switchMap, tap, catchError } from 'rxjs/operators';
+import { map, flatMap, exhaustMap, switchMap, tap, catchError, take } from 'rxjs/operators';
 
 // Assets
 import * as aa from '@chat/modules/auth/state/auth.actions';
@@ -45,7 +45,9 @@ export class AuthEffects {
   @Effect()
   Logout$: Observable<Action> = this.actions$.pipe(
     ofType<aa.Logout>(aa.AuthActionTypes.Logout),
-    flatMap(lo => this.store.select(AuthSelectors.getAuthToken)),
+    flatMap(lo => {
+        return this.store.select(AuthSelectors.getAuthToken).pipe(take(1))
+    }),
     exhaustMap((token: string) => {
       return this.authService.logout(token).pipe(
         map(response => new aa.UserLogout()),
