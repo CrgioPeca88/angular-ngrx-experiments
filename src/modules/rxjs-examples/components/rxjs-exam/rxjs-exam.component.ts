@@ -2,7 +2,7 @@
 import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { Observable, BehaviorSubject, ReplaySubject, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent,
   EMPTY, concat } from 'rxjs';
-import { mergeAll, map, mapTo, flatMap, switchMap, audit, take, buffer, isEmpty,
+import { mergeAll, map, mapTo, flatMap, exhaustMap, switchMap, audit, take, buffer, isEmpty,
   tap, debounceTime, filter, delay } from 'rxjs/operators';
 
 interface Person {
@@ -95,6 +95,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initDebounceTimeOperator();
     this.initFilterOperator();
     this.initCustomOperators();
+    this.initOperatorExhaustMap();
   }
 
   public runBehaviorSubject(): void {
@@ -361,6 +362,31 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     );
 
     concat(result, result2).subscribe((p: Person) => console.log(`%c CUSTOM operator: result ==>`, `color: greenyellow; background-color: blue`, p));
+  }
+
+  private initOperatorExhaustMap(): void {
+    function getNewObservable(t: string): Observable<string> {
+      return interval(500).pipe(
+        map(n => `${t} - interno ${n}`),
+        take(20)
+      );
+    }
+
+    const obs1: Observable<string> = interval(1000).pipe(
+      map(n => `externo ${n}`),
+      take(10)
+    );
+
+    const result: Observable<string> = obs1.pipe(
+      exhaustMap((t: string) => {
+        return getNewObservable(t);
+      })
+    );
+
+    result.subscribe((text: string) => {
+      console.log(`%c EXHAUSTMAP operator: result ==>`, `color: gold; background-color: darkred`, text)
+    });
+
   }
 
 
