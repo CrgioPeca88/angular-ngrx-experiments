@@ -3,7 +3,7 @@ import { Component, ElementRef, Renderer2, AfterViewInit, ViewChild, OnInit } fr
 import { Observable, BehaviorSubject, ReplaySubject, Subscription, of, interval, merge, pipe, OperatorFunction, fromEvent,
   EMPTY, concat } from 'rxjs';
 import { mergeAll, map, mapTo, flatMap, exhaustMap, switchMap, audit, take, buffer, isEmpty,
-  tap, debounceTime, filter, delay } from 'rxjs/operators';
+  tap, debounceTime, filter, delay, concatMap } from 'rxjs/operators';
 
 interface Person {
   age: number;
@@ -96,6 +96,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     this.initFilterOperator();
     this.initCustomOperators();
     this.initOperatorExhaustMap();
+    this.initOperatorConcatMap();
   }
 
   public runBehaviorSubject(): void {
@@ -365,6 +366,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
   }
 
   private initOperatorExhaustMap(): void {
+
     function getNewObservable(t: string): Observable<string> {
       return interval(500).pipe(
         map(n => `${t} - interno ${n}`),
@@ -387,6 +389,30 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
       console.log(`%c EXHAUSTMAP operator: result ==>`, `color: gold; background-color: darkred`, text)
     });
 
+  }
+
+  private initOperatorConcatMap(): void {
+    function getNewObservable(t: string): Observable<string> {
+      return interval(500).pipe(
+        map(n => `${t} - interno ${n}`),
+        take(3)
+      );
+    }
+
+    const obs1: Observable<string> = interval(1000).pipe(
+      map(n => `externo ${n}`),
+      take(8)
+    );
+
+    const result: Observable<string> = obs1.pipe(
+      concatMap((t: string) => {
+        return getNewObservable(t);
+      })
+    );
+
+    result.subscribe((text: string) => {
+      console.log(`%c CONCATMAP operator: result ==>`, `color: greenyellow; background-color: gray`, text)
+    });
   }
 
 
