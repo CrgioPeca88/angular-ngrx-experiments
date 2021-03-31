@@ -217,6 +217,7 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
         console.log(`%c FLATMAP operator: result exam1 ==>`, `color: green; background-color: orange`, n);
       }
     });
+    // -------------------------------------------------------------------------
 
     function getNewObservable2(t: string): Observable<string> {
       return interval(500).pipe(
@@ -236,6 +237,12 @@ export class RxjsExComponent implements OnInit, AfterViewInit {
     result2.subscribe((text: string) => {
       console.log(`%c FLATMAP operator: result exam2 ==>`, `color: green; background-color: orange`, text);
     });
+
+    // -------------------------------------------------------------------------
+    const array: Observable<number[]> = of([1,2,3,4,5,6,7,8]);
+    array.pipe(
+      flatMap(a => a)
+    ).subscribe(res => console.log(`%c FLATMAP operator: array to multiples observables ==>`, `color: green; background-color: orange`, res));
   }
 
   private initOperatorswitchMapEx(): void {
